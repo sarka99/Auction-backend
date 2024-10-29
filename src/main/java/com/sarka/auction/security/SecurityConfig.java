@@ -1,4 +1,4 @@
-package com.alibou.book.security;
+package com.sarka.auction.security;
 
 import com.sarka.auction.security.KeycloakJwtAuthenticationConverter;
 import lombok.RequiredArgsConstructor;
