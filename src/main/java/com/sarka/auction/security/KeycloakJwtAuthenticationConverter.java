@@ -1,5 +1,6 @@
-package com.sarka.auction.security;
+/*
 
+package com.sarka.auction.security;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.AbstractAuthenticationToken;
@@ -44,3 +45,4 @@ public class KeycloakJwtAuthenticationConverter implements Converter<Jwt, Abstra
                 .collect(toSet());
     }
 }
+*/

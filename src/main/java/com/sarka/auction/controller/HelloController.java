@@ -1,32 +1,46 @@
 package com.sarka.auction.controller;
 
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
-@RequestMapping("/api/hello")
-public class HelloController {
+@RequestMapping("/api")
+public class HelloController{
 
-    @GetMapping("/getTest")
-    public String getTest(){
-        return "get request received";
-    }
-    // Test POST endpoint
-    @PostMapping("/postTest")
-    public String postTest(@RequestBody String data) {
-        return "POST request received with data: " + data;
+    @GetMapping("/hello")
+    public ResponseEntity<String> sayHello() {
+        return ResponseEntity.ok("Hello");
     }
 
-    // Test PUT endpoint
-    @PutMapping("/putTest")
-    public String putTest(@RequestBody String data) {
-        return "PUT request received with data: " + data;
-    }
-    // Test DELETE endpoint
-  //  @DeleteMapping("/deleteTest")
-    @DeleteMapping("/deleteTest")
-    public String deleteTest() {
-        return "DELETE request received!";
+    @GetMapping("/admin")
+    public ResponseEntity<Map<String, Object>> sayHelloToAdmin(@AuthenticationPrincipal Jwt jwt) {
+        //here we return the response as info about the user, especially their SUB
+        String userId = jwt.getSubject();
+        String username = jwt.getClaimAsString("preferred_username");
+        String email = jwt.getClaimAsString("email");
+        // Create a response map
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Hello, Admin!");
+        response.put("userId", userId);
+        response.put("username", username);
+        response.put("email", email);
+
+        // Return response wrapped in ResponseEntity
+        return ResponseEntity.ok(response);
+
+
     }
 
+    @GetMapping("/user")
+
+    public ResponseEntity<String> sayHelloToUser() {
+        return ResponseEntity.ok("Hello User");
+    }
 }
