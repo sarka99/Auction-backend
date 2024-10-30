@@ -25,6 +25,8 @@ public class HelloController{
         String userId = jwt.getSubject();
         String username = jwt.getClaimAsString("preferred_username");
         String email = jwt.getClaimAsString("email");
+
+
         // Create a response map
         Map<String, Object> response = new HashMap<>();
         response.put("message", "Hello, Admin!");
@@ -40,7 +42,14 @@ public class HelloController{
 
     @GetMapping("/user")
 
-    public ResponseEntity<String> sayHelloToUser() {
-        return ResponseEntity.ok("Hello User");
+    public  ResponseEntity<Map<String, Object>>  sayHelloToUser(@AuthenticationPrincipal Jwt jwt, Integer bid) {
+        String username = jwt.getClaimAsString("preferred_username");
+        String userId = jwt.getSubject();
+        Map<String, Object> response = new HashMap<>();
+        bid = 1000;
+        response.put("username", username);
+        response.put("userId", userId);
+        response.put("bidAmount", bid);
+        return ResponseEntity.ok(response);
     }
 }
