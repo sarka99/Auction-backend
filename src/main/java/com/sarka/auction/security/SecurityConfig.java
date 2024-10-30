@@ -25,6 +25,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/admin/**").hasRole(ADMIN)
                         .requestMatchers(HttpMethod.GET, "/api/user/**").hasRole(USER)
                         .requestMatchers(HttpMethod.GET, "/api/admin-and-user/**").hasAnyRole(ADMIN,USER)
+                        .requestMatchers(HttpMethod.POST, "/api/auctions").hasRole(USER) // Only users can create auctions
                         .anyRequest().authenticated());
 
         http.sessionManagement(sess -> sess.sessionCreationPolicy(

@@ -28,9 +28,10 @@ public class Auction {
     @Column(name = "auction_starting_price", nullable = false)
     private double startingPrice;
 
+    /*
     @Column(name = "auction_image_data", nullable = true)
     private String imageData;
-
+    */
     @Column(name = "auction_end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 
