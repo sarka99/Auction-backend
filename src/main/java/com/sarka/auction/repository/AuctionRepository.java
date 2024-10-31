@@ -12,6 +12,9 @@ public interface AuctionRepository extends JpaRepository<Auction,Long> {
     @Query(value = "SELECT * FROM auction WHERE auction_end_date_time > :currentDateTime ORDER BY auction_end_date_time ASC", nativeQuery = true)
     List<Auction> findAllActiveAuctions(LocalDateTime currentDateTime);
 
+    @Query(value = "SELECT * FROM auction WHERE auction_end_date_time > :currentTime AND auction_user_id = :userId", nativeQuery = true)
+    List<Auction> findAllActiveBiddedAuctions(String userId, LocalDateTime currentTime);
+
 
 
 

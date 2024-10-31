@@ -44,6 +44,13 @@ public class AuctionController {
         return ResponseEntity.ok(auction);
     }
 
+    @GetMapping("/auctions/bids/active")
+    //TODO: create tests to see this actually returns active auctions, create cases where the auction has already ended see if its not included
+    public ResponseEntity<List<Auction>> getActiveBiddedAuctions(){
+        //get all auctions associated with the users userId and their enddate is after current date
+        return ResponseEntity.ok(auctionService.getActiveBiddedAuctions());
+    }
+
 
 
 

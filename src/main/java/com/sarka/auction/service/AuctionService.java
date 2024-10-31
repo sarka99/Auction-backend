@@ -90,5 +90,15 @@ public class AuctionService implements IAuctionService {
         return auction.get();
     }
 
+    @Override
+    public List<Auction> getActiveBiddedAuctions() {
+        // Get the current JWT token
+        Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String extractedUserId = jwt.getClaimAsString("sub");
+
+        List<Auction> activeBiddedAuctions = auctionRepository.findAllActiveBiddedAuctions(extractedUserId,LocalDateTime.now());
+        return activeBiddedAuctions;
+    }
+
 
 }

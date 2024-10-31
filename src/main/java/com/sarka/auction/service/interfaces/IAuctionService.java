@@ -11,4 +11,5 @@ public interface IAuctionService {
     Auction editAuctionDescription(String description, Long auctionId);
     List<Auction> getAllActiveAuctions();
     Auction getAuctionDetails(Long auctionId);
+    List<Auction> getActiveBiddedAuctions();
 }
