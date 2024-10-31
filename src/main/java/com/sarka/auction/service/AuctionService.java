@@ -13,6 +13,7 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -76,4 +77,18 @@ public class AuctionService implements IAuctionService {
         existingAuction.get().setDescription(newDescription);
         return auctionRepository.save(existingAuction.get());
     }
+
+    @Override
+    public List<Auction> getAllActiveAuctions() {
+        List<Auction> activeAuctions = auctionRepository.findAllActiveAuctions(LocalDateTime.now());
+        return activeAuctions;
+    }
+
+    @Override
+    public Auction getAuctionDetails(Long auctionId) {
+        Optional<Auction> auction = auctionRepository.findById(auctionId);
+        return auction.get();
+    }
+
+
 }
