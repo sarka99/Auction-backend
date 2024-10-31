@@ -8,7 +8,6 @@ Will use the auction repository to actually interact with the persistence layer
 import com.sarka.auction.model.Auction;
 import com.sarka.auction.repository.AuctionRepository;
 import com.sarka.auction.service.interfaces.IAuctionService;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
