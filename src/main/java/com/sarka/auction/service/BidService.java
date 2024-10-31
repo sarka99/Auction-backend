@@ -33,22 +33,44 @@ public class BidService implements IBidService {
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String extractedUserId = jwt.getClaimAsString("sub");
 
-
-
         Auction auction = auctionRepository.findById(auctionId)
                 .orElseThrow(() -> new IllegalArgumentException("Auction not found"));
 
-        //Bid placement can only be done on an auction that isnt owned by the user trying to place the bid
+        // Determine the highest bid
+        double highestBid = auction.getBids().isEmpty() ? 0 : retrieveHighestBid(auction.getBids());
+        System.out.println("Highest bid on the auction: " + highestBid);
+        System.out.println("highest bid on the auction u wanna place on is " + highestBid);
+        System.out.println("bids list of auction is:" + auction.getBids());
+
+        //Bid placement can only be done on an auction that isn't owned by the user trying to place the bid
         if (auction.getUserId().equals(extractedUserId)){
             throw new IllegalArgumentException("The owner of auction cannot place bid");
         }
 
+        if (auction.getEndDateTime().isBefore(LocalDateTime.now())){
+            throw new IllegalArgumentException("The auction has ended, you cannot place bid");
+        }
+
+        if(amount <= highestBid || amount <= auction.getStartingPrice()){
+            throw new IllegalArgumentException("The bid placed must be higher than all previous ones and than starting price");
+        }
+
         // Create a new bid without adding it to auction's bids list
         Bid newBidToPlace = new Bid(amount, LocalDateTime.now(), auction, extractedUserId);
+
         System.out.println("The new bid we are about to place: " + newBidToPlace);
         System.out.println("the auction we are placing bid on: " + auction);
         // Save the new bid directly
         return bidRepository.save(newBidToPlace);
+    }
+    private double retrieveHighestBid(List<Bid> bids){
+        double max = bids.get(0).getAmount();
+        for(Bid b : bids){
+            if (b.getAmount() > max){
+                max = b.getAmount();
+            }
+        }
+        return max;
     }
 
 }
