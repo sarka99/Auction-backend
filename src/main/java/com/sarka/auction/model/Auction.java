@@ -1,5 +1,6 @@
 package com.sarka.auction.model;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -40,10 +41,24 @@ public class Auction {
 
     // The cascadeType.all setting means that any operation performed on auction will also affect its bids
     //For instance, if an auction is deleted all associated bids will also be deleted
+    //Establishing bidirectional relationship with bids
     @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Bid> bids;
+    @JsonManagedReference
+    private List<Bid> bids = new ArrayList<>();
 
 
     public Auction(Long id, String name, String description, double startingPrice, String imageData, LocalDateTime endDateTime, String userId) {
+    }
+
+    @Override
+    public String toString() {
+        return "Auction{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", startingPrice=" + startingPrice +
+                ", endDateTime=" + endDateTime +
+                ", userId='" + userId + '\'' +
+                '}';
     }
 }

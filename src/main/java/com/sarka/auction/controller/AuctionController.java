@@ -39,6 +39,7 @@ public class AuctionController {
     }
     @GetMapping("/auctions/{auctionId}")
     public ResponseEntity<Auction> getAuctionDetails(@PathVariable Long auctionId){
+        //TODO: MAKE SURE BIDS ARE SORTED SO THAT HIGHEST BID IS FIRST
         Auction auction = auctionService.getAuctionDetails(auctionId);
         return ResponseEntity.ok(auction);
     }

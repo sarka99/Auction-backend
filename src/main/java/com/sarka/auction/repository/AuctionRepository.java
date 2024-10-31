@@ -13,4 +13,6 @@ public interface AuctionRepository extends JpaRepository<Auction,Long> {
     List<Auction> findAllActiveAuctions(LocalDateTime currentDateTime);
 
 
+
+
 }
