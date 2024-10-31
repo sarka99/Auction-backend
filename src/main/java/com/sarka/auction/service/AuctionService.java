@@ -59,18 +59,22 @@ public class AuctionService implements IAuctionService {
     public Auction editAuctionDescription(String newDescription, Long auctionId) {
         //get this existing auction so we can update its newDescription
         Optional<Auction> existingAuction = auctionRepository.findById(auctionId);
+        if(existingAuction.isEmpty()){
+            throw new IllegalArgumentException("Auction not found");
+        }
 
-
-        // Get the current JWT token
+        // Get the current JWT token, and extract userId
         Jwt jwt = (Jwt) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String extractedUserId = jwt.getClaimAsString("sub");
 
         if(!existingAuction.get().getUserId().equals(extractedUserId)){
-            throw new IllegalArgumentException("The person changing the newDescription of auction isnt owner of auction");
+            throw new IllegalArgumentException("Unauthorized to edit this auction's description");
         }
+        if (newDescription.trim().isEmpty() || newDescription == null){
+            throw new IllegalArgumentException("Description cannot be empty or null");
+        }
+
         existingAuction.get().setDescription(newDescription);
-
-
         return auctionRepository.save(existingAuction.get());
     }
 }
