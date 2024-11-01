@@ -12,7 +12,7 @@ import java.util.List;
 @RequestMapping("/api")
 
 public class AuctionController {
-
+    //TODO: create new branch and implement pagination when for example fetching all auctions
     private final AuctionService auctionService;
 
     public AuctionController(AuctionService auctionService) {
@@ -49,6 +49,12 @@ public class AuctionController {
     public ResponseEntity<List<Auction>> getActiveBiddedAuctions(){
         //get all auctions associated with the users userId and their enddate is after current date
         return ResponseEntity.ok(auctionService.getActiveBiddedAuctions());
+    }
+
+    @GetMapping("/auctions/endedWon")
+    public ResponseEntity<List<Auction>> getAllEndedWonAuctions(){
+        List<Auction> endedWonAuctions = auctionService.getAllEndedWonAuctions();
+        return ResponseEntity.ok(endedWonAuctions);
     }
 
 

@@ -12,4 +12,5 @@ public interface IAuctionService {
     List<Auction> getAllActiveAuctions();
     Auction getAuctionDetails(Long auctionId);
     List<Auction> getActiveBiddedAuctions();
+    List<Auction> getAllEndedWonAuctions();
 }
