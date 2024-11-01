@@ -29,22 +29,20 @@ public class Auction {
     @Column(name = "auction_starting_price", nullable = false)
     private double startingPrice;
 
-    /*
-    @Column(name = "auction_image_data", nullable = true)
-    private String imageData;
-    */
     @Column(name = "auction_end_date_time", nullable = false)
     private LocalDateTime endDateTime;
 
     @Column(name = "auction_user_id", nullable = false)
     private String userId;
 
-    // The cascadeType.all setting means that any operation performed on auction will also affect its bids
-    //For instance, if an auction is deleted all associated bids will also be deleted
-    //Establishing bidirectional relationship with bids
+    @OneToOne(mappedBy = "auction", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "image_id")  // Foreign key in Auction table
+    private Image auctionImage;
+
     @OneToMany(mappedBy = "auction", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Bid> bids = new ArrayList<>();
+
 
 
     public Auction(Long id, String name, String description, double startingPrice, String imageData, LocalDateTime endDateTime, String userId) {
